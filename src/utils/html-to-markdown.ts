@@ -20,8 +20,24 @@ export const htmlToMarkdownWithUrl = async (url: string) => {
     'Connection': 'keep-alive'
   }
 
-  const html = await axios.get(url, { headers });
-  return htmlToMarkdown(html.data);
+  let html;
+  try {
+    const response = await axios.get(url, {
+      headers,
+      validateStatus: (status) => status < 500 // Accept any status < 500
+    });
+
+    if (response.status === 403) {
+      return 'Access Denied - Could not retrieve content';
+    }
+
+    html = response.data;
+  } catch (error) {
+    console.error(`Error fetching URL ${url}:`, error.message);
+    return 'Error retrieving content';
+  }
+
+  return htmlToMarkdown(html);
 }
 
 export const htmlToMarkdown = async (html: string) => {
