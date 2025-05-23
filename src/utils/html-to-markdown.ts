@@ -1,5 +1,5 @@
 import { join } from "path";
-import koffi from "koffi";
+import * as koffi from "koffi";
 import axios from "axios";
 
 const goExecutablePath = join(
@@ -7,6 +7,8 @@ const goExecutablePath = join(
   "html-to-markdown",
   "html-to-markdown.so",
 );
+
+console.log(goExecutablePath)
 
 const lib = koffi.load(goExecutablePath);
 const convert = lib.func("ConvertHTMLToMarkdown", "string", ["string"]);
