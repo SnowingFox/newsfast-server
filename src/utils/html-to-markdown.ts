@@ -8,8 +8,6 @@ const goExecutablePath = join(
   "html-to-markdown.so",
 );
 
-console.log(goExecutablePath)
-
 const lib = koffi.load(goExecutablePath);
 const convert = lib.func("ConvertHTMLToMarkdown", "string", ["string"]);
 

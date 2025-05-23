@@ -28,6 +28,8 @@ export class SearchService {
 
     let result: SearchResult[] = queryResult
 
+    console.log(query)
+
     if (query.format === 'markdown') {
       result = await Promise.all(queryResult.map(async (item) => {
         return {
