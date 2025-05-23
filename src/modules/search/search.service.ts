@@ -8,14 +8,14 @@ import {
   ResultTypes, // Import to filter results by type
   // @ts-ignore
 } from "google-sr";
-import { GoogleSearchQuery } from './dto/google.dto';
+import { GoogleSearchBody } from './dto/google.dto';
 import { SearchResult } from './type';
 
 @Injectable()
 export class SearchService {
-  async googleSearch(query: GoogleSearchQuery) {
+  async googleSearch(dto: GoogleSearchBody) {
     const queryResult = await search({
-      query: query.keyword,
+      query: dto.keyword,
       // Specify the result types explicitly ([OrganicResult] is the default, but it is recommended to always specify the result type)
       resultTypes: [OrganicResult, DictionaryResult],
       // Optional: Customize the request using AxiosRequestConfig (e.g., enabling safe search)
@@ -33,7 +33,7 @@ export class SearchService {
       }
     })
 
-    if (query.format === 'markdown') {
+    if (dto.format === 'markdown') {
       result = await Promise.all(queryResult.map(async (item) => {
         return {
           ...item,
