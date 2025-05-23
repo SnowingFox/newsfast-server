@@ -22,8 +22,6 @@ export class SearchService {
       },
     });
 
-    console.log(queryResult)
-
     return queryResult;
   }
 }
