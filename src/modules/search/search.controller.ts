@@ -1,6 +1,7 @@
 import { Public } from '@/common/decorator/public.decorator';
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
+import { GoogleSearchQuery } from './dto/google.dto';
 
 @Public()
 @Controller('search')
@@ -9,7 +10,7 @@ export class SearchController {
   private readonly service: SearchService;
 
   @Get('/google')
-  async googleSearch() {
-    return this.service.googleSearch('nodejs');
+  async googleSearch(@Query() query: GoogleSearchQuery) {
+    return this.service.googleSearch(query.keyword);
   }
 }
