@@ -1,0 +1,10 @@
+enum Role {
+  Admin
+  User
+  Banned
+}
+
+enum Gender {
+  Male
+  Female
+}
