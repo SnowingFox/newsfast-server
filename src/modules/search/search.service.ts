@@ -26,21 +26,26 @@ export class SearchService {
       },
     }) as SearchResult[]
 
-    let result: SearchResult[] = queryResult
-
-    console.log(query)
+    let result: SearchResult[] = queryResult.map((item) => {
+      return {
+        ...item,
+        url: item.link,
+      }
+    })
 
     if (query.format === 'markdown') {
       result = await Promise.all(queryResult.map(async (item) => {
         return {
           ...item,
+          url: item.link,
           markdown: await htmlToMarkdownWithUrl(item.link),
         };
       })) as SearchResult[]
-    } else {
-      result = queryResult
     }
 
-    return result;
+    return {
+      success: true,
+      data: result,
+    };
   }
 }
