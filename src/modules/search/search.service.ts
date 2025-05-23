@@ -41,6 +41,6 @@ export class SearchService {
       result = queryResult
     }
 
-    return queryResult;
+    return result;
   }
 }
