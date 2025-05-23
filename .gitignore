@@ -3,6 +3,8 @@
 /node_modules
 /build
 
+html-to-markdown.h
+html-to-markdown.so
 # Logs
 logs
 *.log
