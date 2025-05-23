@@ -1,1 +1,1 @@
-go mod tidy && go build -o main.so -buildmode=c-shared html-to-markdown.go && chmod +x html-to-markdown.so
+go mod tidy && go build -o html-to-markdown.so -buildmode=c-shared main.go && chmod +x html-to-markdown.so
