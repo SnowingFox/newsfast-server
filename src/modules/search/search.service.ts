@@ -1,4 +1,6 @@
+import { htmlToMarkdown, htmlToMarkdownWithUrl } from '@/utils/html-to-markdown';
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import {
   search,
   OrganicResult, // Import the result types you need
@@ -6,12 +8,14 @@ import {
   ResultTypes, // Import to filter results by type
   // @ts-ignore
 } from "google-sr";
+import { GoogleSearchQuery } from './dto/google.dto';
+import { SearchResult } from './type';
 
 @Injectable()
 export class SearchService {
-  async googleSearch(query: string) {
+  async googleSearch(query: GoogleSearchQuery) {
     const queryResult = await search({
-      query,
+      query: query.keyword,
       // Specify the result types explicitly ([OrganicResult] is the default, but it is recommended to always specify the result type)
       resultTypes: [OrganicResult, DictionaryResult],
       // Optional: Customize the request using AxiosRequestConfig (e.g., enabling safe search)
@@ -20,7 +24,20 @@ export class SearchService {
           safe: "active",   // Enable "safe mode"
         },
       },
-    });
+    }) as SearchResult[]
+
+    let result: SearchResult[] = queryResult
+
+    if (query.format === 'markdown') {
+      result = await Promise.all(queryResult.map(async (item) => {
+        return {
+          ...item,
+          markdown: await htmlToMarkdownWithUrl(item.link),
+        };
+      })) as SearchResult[]
+    } else {
+      result = queryResult
+    }
 
     return queryResult;
   }

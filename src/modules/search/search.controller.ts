@@ -11,6 +11,6 @@ export class SearchController {
 
   @Get('/google')
   async googleSearch(@Query() query: GoogleSearchQuery) {
-    return this.service.googleSearch(query.keyword);
+    return this.service.googleSearch(query);
   }
 }
