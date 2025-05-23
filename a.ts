@@ -24,12 +24,11 @@ const goExecutablePath = join(
   "html-to-markdown",
   "html-to-markdown.so",
 );
+
 const lib = koffi.load(goExecutablePath);
 const convert = lib.func("ConvertHTMLToMarkdown", "string", ["string"]);
 
 const html = fs.readFileSync(join(process.cwd(), "baidu.txt"), "utf-8")
-
-console.log(html)
 
 convert.async(html, (err: Error, res: string) => {
   if (err) {
